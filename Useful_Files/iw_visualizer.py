@@ -27,6 +27,7 @@ else:
     IMG_NAME = str(sys.argv[1])
 
 
+
 ################################
 # Callbacks
 ################################
@@ -53,11 +54,11 @@ def onclick(event):
     ax[0].add_patch(rect)
     
     if len(img.shape) == 3:
-        img2 = img[centerY-20:centerY+20, centerX-20:centerX+20, :]
-        img3 = img[centerY-3:centerY+3, centerX-3:centerX+3, :]
+        img2 = img[int(centerY)-20:int(centerY)+20, int(centerX)-20:int(centerX)+20, :]
+        img3 = img[int(centerY)-3:int(centerY)+3, int(centerX)-3:int(centerX)+3, :]
     else:
-        img2 = img[centerY-20:centerY+20, centerX-20:centerX+20]
-        img3 = img[centerY-3:centerY+3, centerX-3:centerX+3]
+        img2 = img[int(centerY)-20:int(centerY)+20, int(centerX)-20:int(centerX)+20]
+        img3 = img[int(centerY)-3:int(centerY)+3, int(centerX)-3:int(centerX)+3]
 
     ax[1].imshow(img2, interpolation='nearest', clim=clim, cmap='jet')  
     ax[2].imshow(img3, interpolation='nearest', clim=clim, cmap='jet')  
