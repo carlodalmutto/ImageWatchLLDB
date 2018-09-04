@@ -6,6 +6,8 @@ from subprocess import call
 from time import strftime
 from os.path import expanduser
 import os
+import pickle
+import numpy as np
 
 
 ##################################################
@@ -210,9 +212,11 @@ def showImage(debugger, matInfo):
     img.putdata(image_data)
 
     # Save to file and open it.
-    TEMP_FOLDER = expanduser("~") + "/Desktop/lldb_iw_temp/"
+    TEMP_FOLDER = expanduser("~") + "/Downloads/lldb_iw_temp/"
     imageFolder = str(TEMP_FOLDER) + \
         str(matInfo['name']) + "_" + strftime("%H_%M_%S") + ".png"
+    pickleFolder = str(TEMP_FOLDER) + \
+        str(matInfo['name']) + "_" + strftime("%H_%M_%S") + ".p"
 
     data = str(matInfo['name']) + " = double\\(imread\\("+"\\'" + imageFolder + "\\'" + "\\)\\) \\/ 255.0\\; figure\\(\\)\\; imshow\\(" + str(matInfo['name']) + "\\)\\; system\\(\\'find " + TEMP_FOLDER + " -mtime +1 -delete  \\'\\)\\;"
     os.system("echo " + data.strip() + " | pbcopy")
@@ -220,9 +224,9 @@ def showImage(debugger, matInfo):
     if os.path.exists(TEMP_FOLDER):
         os.system("rm -r " +  TEMP_FOLDER)
     os.mkdir(TEMP_FOLDER)
-    img.save(imageFolder)
-    print imageFolder
+    pickle.dump(np.asarray(img), open(pickleFolder, "wb"))
+
     # os.system("python " + expanduser("~") + "/lldb/iw_visualizer.py " + imageFolder)
-    os.system("python " + expanduser("~") + "/Documents/APPS/ImageWatchLLDB/Useful_Files/iw_visualizer.py " + imageFolder)
+    os.system("python " + expanduser("~") + "/Documents/APPS/ImageWatchLLDB/Useful_Files/iw_visualizer.py " + pickleFolder)
     if os.path.exists(TEMP_FOLDER):
         os.system("rm -r " +  TEMP_FOLDER)

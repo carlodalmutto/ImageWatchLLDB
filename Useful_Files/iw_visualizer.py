@@ -15,6 +15,10 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import matplotlib.patches as patches
+from PIL import Image
+import pickle
+import numpy
+
 
 ################################
 # Check inputs.
@@ -25,8 +29,6 @@ if len(sys.argv) < 2:
     sys.exit()
 else:
     IMG_NAME = str(sys.argv[1])
-
-
 
 ################################
 # Callbacks
@@ -79,7 +81,8 @@ def onclick(event):
 # Visualization
 ################################
 
-img = plt.imread(IMG_NAME)
+with open(IMG_NAME,'rb') as fid:
+    img = pickle.load(fid)
 fig, ax = plt.subplots(1, 3, figsize=(15, 5))
 ax[0].axis("off")
 ax[1].axis("off")
